@@ -9,7 +9,7 @@ def sigmoid(z):
 
 
 data, target = load_iris(True)
-data, target = data[target != 2], target[target != 2] # only choose two classes of iris
+data, target = data[target != 2], target[target != 2]  # only choose two classes of iris
 
 data = np.append(np.ones((data.shape[0], 1)), data, axis=1)
 
@@ -40,4 +40,5 @@ plt.subplot(312)
 plt.plot(error_trace)
 plt.title('errors')
 
+plt.tight_layout()
 plt.show()

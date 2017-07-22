@@ -60,6 +60,7 @@ def main():
                 plt.ylabel(feature_names[x1])
                 plt.title("accuracy {}".format(accuracy))
 
+    plt.tight_layout()
     plt.show()
 
 
