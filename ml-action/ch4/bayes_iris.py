@@ -50,7 +50,7 @@ def main():
             accuracy = (y_predict == y_valid).mean()
 
             error = x_valid[y_predict != y_valid]
-            print "x0, x1, accuracy: ", accuracy
+            print "x0, x1, accuracy: ", x0, x1, accuracy
             if x0 == 0:
                 plt.subplot(3, 1, x1)
                 plt.scatter(x_train[:, 0], x_train[:, 1], c=y_train + 10, marker=".")
