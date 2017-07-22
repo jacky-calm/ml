@@ -9,7 +9,7 @@ def sigmoid(z):
 
 
 data, target = load_iris(True)
-data, target = data[target != 2], target[target != 2]  # only choose two classes of iris
+data, target = data[target != 2][:, (0, 2)], target[target != 2]  # only choose two classes of iris
 
 data = np.append(np.ones((data.shape[0], 1)), data, axis=1)
 
@@ -21,7 +21,7 @@ weights = np.ones(data.shape[1])
 alpha = 0.1
 
 w_trace, h_trace, error_trace, y_train_trace = [], [], [], []
-for i in range(200):
+for i in range(500):
     random_i = int(np.random.uniform(0, x_train.shape[0]))
     pick = x_train[random_i]
     h = sigmoid(np.dot(weights, pick))
@@ -31,6 +31,12 @@ for i in range(200):
     error_trace.append(error)
     weights = weights - alpha * error * pick
     w_trace.append(weights)
+
+predicts = [int(sigmoid(np.dot(weights, t)) > 0.5) for t in x_test]
+accuracy = (predicts == y_test).mean()
+print predicts
+print y_test
+print "accuracy: ", accuracy
 
 plt.subplot(311)
 plt.plot(w_trace)
