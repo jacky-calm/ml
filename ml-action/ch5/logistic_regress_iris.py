@@ -46,5 +46,12 @@ plt.subplot(312)
 plt.plot(error_trace)
 plt.title('errors')
 
+plt.subplot(313)
+plt.scatter(data[:, 1], data[:, 2], c=target + 100, marker=".")
+lx = np.arange(4, 8, 0.1)
+ly = - (weights[0] + weights[1] * lx) / weights[2]  # w0 + w1 * x1 + w2 * x2 = 0 => w2 = - (w0 + w1 * x1)/w2
+plt.plot(lx, ly, 'r')
+plt.title('separate line')
+
 plt.tight_layout()
 plt.show()
