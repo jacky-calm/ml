@@ -4,18 +4,31 @@ import numpy as np
 
 
 def local_weighted_linear_regression(xi, X, y, k):
-    # print "x, xi, yi", xi.shape
+    # print "x, xi, yi", np.array(xi).shape, X.shape, xi
     m = X.shape[0]
+    y_mat = np.mat(y)
     weights = np.mat(np.eye(m))
     for j in range(m):
         diff = xi - X[j, :]
-        weights[j, j] = np.exp(diff * diff.T / (-2 * np.square(k)))
+        # print "diff: ", diff.shape, diff.T.shape, diff * diff.T, diff, diff.T
+        weights[j, j] = np.exp(np.dot(diff, diff.T) / (-2 * np.square(k)))
+    print "weights: ", weights.shape
     xTwx = X.T * (weights * X)
     if np.linalg.det(xTwx) == 0:
         print "This xTwx matrix is singular, cannot do inverse"
         return
-    wl = xTwx.I * (X.T * (weights * y.T))
+    wl = xTwx.I * (X.T * (weights * y_mat.T))
     return (xi * wl)[0, 0]
+
+
+def lwlr_test(test_x, train_x, train_y, k=1.0):
+    # print "test_x: ", test_x.shape, train_x.shape
+    return np.array([local_weighted_linear_regression(xi, train_x, train_y, k) for xi in test_x])
+
+
+def plot_sorted(x, y, c='r'):
+    sorted_index = np.argsort(x)
+    plt.plot(x[sorted_index], y[sorted_index], c)
 
 
 def main():
@@ -39,10 +52,8 @@ def main():
     y_hat = X * ws
     plt.plot(data[1], y_hat, 'r')
 
-    y_hat_l = np.array([local_weighted_linear_regression(xi, X, y, 0.03) for xi in X])
-    sorted_index = np.argsort(data[1])
-
-    plt.plot(data[1][sorted_index], y_hat_l[sorted_index], 'b')
+    y_hat_l = lwlr_test(X, X, y, 0.03)
+    plot_sorted(data[1], y_hat_l, c='b')
 
     plt.show()
 
