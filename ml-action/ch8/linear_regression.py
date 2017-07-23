@@ -12,7 +12,7 @@ def local_weighted_linear_regression(xi, X, y, k):
         diff = xi - X[j, :]
         # print "diff: ", diff.shape, diff.T.shape, diff * diff.T, diff, diff.T
         weights[j, j] = np.exp(np.dot(diff, diff.T) / (-2 * np.square(k)))
-    print "weights: ", weights.shape
+    # print "weights: ", weights.shape
     xTwx = X.T * (weights * X)
     if np.linalg.det(xTwx) == 0:
         print "This xTwx matrix is singular, cannot do inverse"
